@@ -63,6 +63,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  TextEditingController _controller;
+
+  void initState(){
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -104,6 +117,22 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            new Container(
+              child: TextField(
+                controller: _controller,
+                onSubmitted: (String value)async{
+                  await showDialog<void>(context: context, builder: (BuildContext context){
+                    return AlertDialog(title: const Text('Thanks!'), content: Text('You typed "$value".'),
+                      actions: <Widget>[FlatButton(onPressed: (){Navigator.pop(context);},
+                      child: const Text('Ok'),
+                      ),
+                      ],
+                    );
+                  },
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
